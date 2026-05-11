@@ -1,0 +1,291 @@
+{
+  "title": "OSB Group AI Inventory",
+  "version": "1.1",
+  "revision": 0,
+  "saved": "2026-04-24T11:19:24.741Z",
+  "quadrants": [
+    "AI Models & LLMs",
+    "AI-Powered Tools & Platforms",
+    "Internal AI Use Cases",
+    "Customer AI Use Cases"
+  ],
+  "rings": [
+    "Adopt",
+    "Trial",
+    "Assess",
+    "Observe"
+  ],
+  "items": [
+    {
+      "id": 1,
+      "name": "Claude LLM Platform & Claude Teams (Anthropic)",
+      "quadrant": 0,
+      "ring": 0,
+      "owner": "Amit Sharma",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-45",
+      "desc": "Core large language model platform used to support AI-assisted software engineering across OSB.\n\nForms part of the organisation's multi-model AI strategy alongside other LLM providers, ensuring flexibility, resilience, and vendor diversification."
+    },
+    {
+      "id": 2,
+      "name": "ChatGPT Business & OpenAI LLM Platform (OpenAI)",
+      "quadrant": 0,
+      "ring": 0,
+      "owner": "Amit Sharma",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-45",
+      "desc": "Core large language model platform used to support AI-assisted software engineering across OSB.\n\nForms part of the organisation's multi-model AI strategy alongside other LLM providers, ensuring flexibility, resilience, and vendor diversification."
+    },
+    {
+      "id": 5,
+      "name": "Gemini LLM Platform & Google AI Studio (Google)",
+      "quadrant": 0,
+      "ring": 0,
+      "owner": "Sudarshan Srinath",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-45, TGOV-10, TGOV-21",
+      "desc": "Enterprise large language model capability provided by Google, evaluated within OSB to support AI-driven software engineering and productivity use cases.\n\nForms part of OSB's multi-model AI strategy, ensuring flexibility, optionality, and resilience across AI-enabled capabilities, with focus on secure usage and data governance.\n\nGemini for frontend tests (Browser agent + Visual Analysis) – Fast, Cost effective and Reliable"
+    },
+    {
+      "id": 20,
+      "name": "Grok LLM (xAI)",
+      "quadrant": 0,
+      "ring": 0,
+      "owner": "Sudarshan Srinath",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-45",
+      "desc": "Core large language model platform used to support AI-assisted software engineering across OSB.\n\nForms part of the organisation's multi-model AI strategy alongside other LLM providers, ensuring flexibility, resilience, and vendor diversification."
+    },
+    {
+      "id": 43,
+      "name": "CoPilot Chat (Micosoft)",
+      "quadrant": 0,
+      "ring": 0,
+      "owner": "Anandha",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-45",
+      "desc": "AI-powered conversational assistant embedded within the Microsoft ecosystem, enabling colleagues to interact with enterprise data, generate content, summarise information, and automate routine tasks through natural language.\n\nEnhances productivity by providing real-time assistance across documents, emails, meetings, and workflows, with a focus on secure access, contextual relevance, and alignment to organisational governance standards."
+    },
+    {
+      "id": 4,
+      "name": "Open-Weighted LLMs (e.g. DeepSeek)",
+      "quadrant": 0,
+      "ring": 3,
+      "owner": "Anandha",
+      "ticket": "",
+      "desc": "Positioned as a strategic option for high-sensitivity workloads requiring data sovereignty and tighter governance, with trade-offs in scalability, maintenance complexity, and capability maturity."
+    },
+    {
+      "id": 7,
+      "name": "M365 AI Productivity Layer (Copilot)",
+      "quadrant": 1,
+      "ring": 0,
+      "owner": "Paul Spencer",
+      "ticket": "",
+      "desc": "Core AI productivity layer embedded within Microsoft 365, providing organisation-wide augmentation across communication, content creation, and data analysis."
+    },
+    {
+      "id": 8,
+      "name": "Resistant AI (Document Fraud Detection)",
+      "quadrant": 1,
+      "ring": 0,
+      "owner": "Richard Powell",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-29",
+      "desc": "AI-driven document fraud detection capability to strengthen document assessment within savings and lending. Positioned as a targeted risk control to enhance fraud prevention, with potential to identify synthetic documents, reduce losses, improve regulatory assurance, and streamline manual verification activities."
+    },
+    {
+      "id": 11,
+      "name": "AI-Assisted Code Review & Quality Engineering",
+      "quadrant": 2,
+      "ring": 0,
+      "owner": "Amit Sharma",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-45",
+      "desc": "AI-enabled capability supporting code review, quality assurance, and engineering standards across development teams.\n\nLeverages large language models to analyse pull requests, identify defects, suggest improvements, and enhance consistency in coding practices.\n\nKey enabler for scaling high-quality software delivery, with focus on secure usage, accuracy of outputs, and alignment to internal development standards."
+    },
+    {
+      "id": 12,
+      "name": "Teams Meeting Summarisation",
+      "quadrant": 2,
+      "ring": 1,
+      "owner": "Paul Spencer",
+      "ticket": "",
+      "desc": "AI-enabled meeting summarisation capability embedded within Microsoft Teams, used to generate structured notes, key decisions, and action items from meetings.\n\nSupports improved meeting efficiency, reduces manual note-taking, and ensures consistent capture of outcomes across internal collaboration.\n\nPositioned as a targeted productivity use case within the M365 AI capability, with focus on accuracy, appropriate usage, and alignment to data governance controls."
+    },
+    {
+      "id": 21,
+      "name": "Income Verification for Residential Mortgages",
+      "quadrant": 2,
+      "ring": 1,
+      "owner": "Adi Chadha",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-50",
+      "desc": "Income verification capability being assessed to support residential mortgage applications through faster and more consistent validation of applicant income.\n\nUses AI to analyse submitted income documents and structured data, helping to identify relevant information, assess completeness, and support underwriting decisions.\n\nIntended to improve application turnaround times, reduce manual processing effort, and enhance customer experience through a more streamlined verification process.\n\nCurrently under assessment within OSB to evaluate accuracy, operational impact, integration with mortgage workflows, and alignment to risk, compliance, and data governance requirements."
+    },
+    {
+      "id": 22,
+      "name": "Broker Liaison AI Assistant",
+      "quadrant": 2,
+      "ring": 1,
+      "owner": "Adi Chadha",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-51",
+      "desc": "Colleague-facing AI assistant supporting the Broker Liaison team with rapid access to complex credit policy and guidance.\n\nDesigned to interpret and surface relevant information from extensive policy documentation, enabling faster and more consistent responses to broker queries.\n\nCurrently in early trial within OSB, focused on a low-risk, internal use case to improve efficiency in handling c.90 daily broker interactions.\n\nPositioned as a controlled adoption use case to enhance colleague productivity and decision support, while validating accuracy, usability, and alignment to governance and risk standards prior to any broader rollout."
+    },
+    {
+      "id": 24,
+      "name": "ServiceNow AI Platform",
+      "quadrant": 1,
+      "ring": 0,
+      "owner": "David Gardner",
+      "ticket": "",
+      "desc": "AI within ServiceNow to improve ticket triage, virtual agent support, workflow automation, and service insights."
+    },
+    {
+      "id": 23,
+      "name": "Five9 Intelligent CX Platform (Call Centre AI)",
+      "quadrant": 3,
+      "ring": 3,
+      "owner": "Irfan Khan, Diksha Dutt",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-28",
+      "desc": "Evaluate Five9 as a cloud contact centre platform to enable real-time call transcription, automated call summarisation, and advanced voice analytics across customer interactions."
+    },
+    {
+      "id": 27,
+      "name": "NSSL AI Call Summarisation (NICE CXone)",
+      "quadrant": 1,
+      "ring": 1,
+      "owner": "Rebecca Jackson",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-43",
+      "desc": "AI-enabled capability to automatically generate structured summaries of customer service calls, replacing manual note-taking and improving operational efficiency across contact centre operations. The solution captures key discussion points, actions, and outcomes, enabling faster processing and more consistent record-keeping on customer accounts.\n\nThe service does not use customer data to train or enhance underlying AI models. Inputs are limited to accuracy-related feedback and reporting, with contractual restrictions preventing the vendor from using OSB data for its own purposes. Any model improvements are based on aggregated or anonymised data only."
+    },
+    {
+      "id": 28,
+      "name": "Lucia & Report Writer for Board Papers",
+      "quadrant": 1,
+      "ring": 1,
+      "owner": "Jess Petrie",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-12",
+      "desc": "Adoption of the Lucia Board Reporting Tool to standardise and strengthen the quality of Board papers across OSB Group.\n\nThe solution builds on the existing, approved BI platform and aligns with current architectural standards, requiring minimal integration effort. It introduces a consistent, governance-aligned structure for Board reporting, reducing manual rework, improving clarity, and ensuring outputs meet decision-quality expectations."
+    },
+    {
+      "id": 29,
+      "name": "Claude in Excel trial for FP&A modelling",
+      "quadrant": 2,
+      "ring": 3,
+      "owner": "Mike Walters",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-24",
+      "desc": "Controlled trial of Claude in Excel within the FP&A function to evaluate AI-assisted financial modelling and analysis capabilities.\n\nThe trial is limited to a small number of users and focuses on building analytical models, enhancing P&L insights, and improving efficiency in forecasting, variance analysis, and presentation output. Target use cases include model development for MvM/MvF analysis, retail deposits cost modelling, and broader analytical tooling across lending and deposits.\n\nThis initiative is positioned as a low-risk, governance-led exploration of AI capability within Finance, balancing innovation with strict data protection and model risk controls."
+    },
+    {
+      "id": 30,
+      "name": "AI grant application validation (KRCF)",
+      "quadrant": 2,
+      "ring": 2,
+      "owner": "Adi Chadha",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-49",
+      "desc": "AI-enabled capability to support validation and scoring of Kent Reliance Community Foundation (KRCF) grant applications.\n\nLeverages Google AI Studio (Gemini) to assess applicant eligibility, evaluate alignment with funding priorities, and generate structured outputs to support internal decision-making.\n\nPositioned as a targeted internal use case to improve consistency, reduce manual review effort, and enhance transparency in grant assessment."
+    },
+    {
+      "id": 31,
+      "name": "ML lending pricing optimisation (POC)",
+      "quadrant": 2,
+      "ring": 2,
+      "owner": "Matt Herbert",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-39",
+      "desc": "12-week proof of concept to develop a machine learning-based pricing model for lending products using Databricks.\n\nThe initiative focuses on improving pricing accuracy to optimise revenue and funding costs, enabling more informed pricing decisions across lending portfolios. Outputs will support enhanced modelling of pricing strategies and their impact on commercial performance.\n\nPositioned as an exploratory use case to validate the value of advanced analytics in pricing optimisation, with emphasis on model performance, interpretability, and alignment to risk and governance standards."
+    },
+    {
+      "id": 32,
+      "name": "Salesforce Complaints Management & Agentforce",
+      "quadrant": 3,
+      "ring": 3,
+      "owner": "Irfan Khan",
+      "ticket": "",
+      "desc": "Exploratory assessment of Salesforce’s complaints management capability, including Agentforce-driven automation for case handling, triage, and resolution support.\n\nPositioned as an early-stage evaluation to understand potential benefits in improving customer complaint handling, operational efficiency, and regulatory compliance, with focus on integration into existing customer service workflows and governance controls."
+    },
+    {
+      "id": 33,
+      "name": "Copilot Studio",
+      "quadrant": 1,
+      "ring": 3,
+      "owner": "Srivatsan Ganesh",
+      "ticket": "https://osbgroup.atlassian.net/browse/TGOV-37",
+      "desc": "AI-powered colleague assistant built using Copilot Studio to provide instant access to enterprise and legal knowledge, resolve queries, and route requests to the appropriate function. Reduces reliance on manual support through a unified knowledge base and intelligent triage, improving speed, consistency, and user experience.\n\nThere is also interest from Manali Mandloi to use this for sentiment analysis."
+    },
+    {
+      "id": 34,
+      "name": "Riskonnect AI Governance & Agentforce",
+      "quadrant": 1,
+      "ring": 3,
+      "owner": "Zoe Burnet",
+      "ticket": "",
+      "desc": "Early-stage AI governance capability within Riskonnect, currently limited in maturity and requiring co-development to realise value. Offers integration to capture and register new AI risks at deployment, supporting business readiness."
+    },
+    {
+      "id": 35,
+      "name": "Virtual Assistant (Agentforce)",
+      "quadrant": 3,
+      "ring": 2,
+      "owner": "Viola Fernandes",
+      "ticket": "",
+      "desc": "AI-powered virtual assistant using Salesforce Agentforce to support customer interactions, automate routine queries, and assist agents with real-time insights. Focused on improving response times, consistency, and operational efficiency while maintaining appropriate governance and human oversight."
+    },
+    {
+      "id": 37,
+      "name": "Informatica CLAIRE (Cloud-scale AI-powered Real-time Engine) AI",
+      "quadrant": 1,
+      "ring": 3,
+      "owner": "Claire Allison",
+      "ticket": "",
+      "desc": "Enterprise AI engine within IDMC that uses metadata-driven intelligence to automate and optimise data management, improving data access, reducing manual effort, and enabling trusted decision-making."
+    },
+    {
+      "id": 38,
+      "name": "EUC AI Usage Monitoring (CICMON)",
+      "quadrant": 1,
+      "ring": 3,
+      "owner": "Claire Allison",
+      "ticket": "",
+      "desc": "Governance capability that identifies and monitors AI usage within end-user computing applications, improving visibility, control, and risk management across EUC environments."
+    },
+    {
+      "id": 39,
+      "name": "Adobe Creative Cloud AI",
+      "quadrant": 1,
+      "ring": 3,
+      "owner": "James Hatt",
+      "ticket": "",
+      "desc": "AI-powered creative platform embedding generative and assistive AI (e.g. Firefly) across design, image, and content workflows to accelerate content creation, editing, and production at scale."
+    },
+    {
+      "id": 40,
+      "name": "Cornerstone AI Skills Platform",
+      "quadrant": 1,
+      "ring": 3,
+      "owner": "Majella Baptist",
+      "ticket": "",
+      "desc": "AI-enabled learning and talent platform providing skills intelligence, personalised learning, and workforce development through Galaxy AI and content marketplace integration."
+    },
+    {
+      "id": 41,
+      "name": "Pluralsight AI Learning Assistant",
+      "quadrant": 1,
+      "ring": 3,
+      "owner": "Majella Baptist",
+      "ticket": "",
+      "desc": "AI-driven learning assistant that recommends personalised courses and skill pathways based on proficiency, supporting targeted upskilling across data and technology teams."
+    },
+    {
+      "id": 42,
+      "name": "Rovo (Atlassian)",
+      "quadrant": 1,
+      "ring": 0,
+      "owner": "Josh Snaith",
+      "ticket": "",
+      "desc": "AI-enabled search, knowledge discovery, and assistant capability within the Atlassian ecosystem, designed to help colleagues find information, surface relevant context, and improve productivity across tools such as Jira and Confluence."
+    },
+    {
+      "id": 44,
+      "name": "AI-Driven Cyber Threat Detection (Rapid7)",
+      "quadrant": 1,
+      "ring": 1,
+      "owner": "Roberto Santarossa",
+      "ticket": "",
+      "desc": "AI-enabled cyber security monitoring and alerting capability using Rapid7 to detect and respond to threats. Combines machine learning with rule-based controls and threat intelligence to enhance detection accuracy, reduce alert fatigue, and improve response effectiveness. Supported by continuous model tuning, red teaming, and human-in-the-loop validation to manage detection gaps, model drift, and operational risk."
+    }
+  ],
+  "nextId": 45
+}

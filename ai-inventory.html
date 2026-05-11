@@ -1,0 +1,2024 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSB Group · AI Inventory</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* RINGS: Semantic Lifecycle Colours */
+    --adopt: #1A8A3F;
+    --trial: #2B6CB0;
+    --assess: #C87E1A;
+    --observe: #64748B;
+    --adopt-bg: rgba(26,138,63,0.12);
+    --trial-bg: rgba(43,108,176,0.12);
+    --assess-bg: rgba(200,126,26,0.12);
+    --observe-bg: rgba(100,116,139,0.12);
+
+    /* QUADRANTS: Structural Category Colours (Distinct from Rings) */
+    --q1: #2563EB; /* Royal Blue */
+    --q2: #0D9488; /* Deep Teal */
+    --q3: #7C3AED; /* Rich Violet */
+    --q4: #BE123C; /* Crimson */
+
+    --bg: #F4F5F7;
+    --surface: #FFFFFF;
+    --surface2: #EEF0F4;
+    --text: #1A1D27;
+    --text-dim: #6B7084;
+    --border: #D8DBE3;
+    --ring-stroke: #C5C9D4;
+    --axis: #D8DBE3;
+  }
+
+  /* DARK MODE */
+  body.dark {
+    --adopt: #34D058;
+    --trial: #58A6FF;
+    --assess: #F0A840;
+    --observe: #94A3B8;
+    --adopt-bg: rgba(52,208,88,0.14);
+    --trial-bg: rgba(88,166,255,0.14);
+    --assess-bg: rgba(240,168,64,0.14);
+    --observe-bg: rgba(148,163,184,0.14);
+
+    --q1: #60A5FA;
+    --q2: #2DD4BF;
+    --q3: #A78BFA;
+    --q4: #FB7185;
+
+    --bg: #0D1117;
+    --surface: #161B22;
+    --surface2: #21262D;
+    --text: #E6EDF3;
+    --text-dim: #8B949E;
+    --border: #30363D;
+    --ring-stroke: #30363D;
+    --axis: #30363D;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+  }
+  .header-left { display:flex; align-items:center; gap:12px; }
+  .logo-img { height: 36px; object-fit: contain; }
+  .logo-mark {
+    width: 36px; height: 36px; border-radius: 9px;
+    background: linear-gradient(135deg, var(--q1), var(--q2));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 15px; color: #fff;
+  }
+  .header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; display: flex; align-items: center; margin-left: 4px;}
+
+  .version-badge {
+    font-size: 11px;
+    background: var(--surface2);
+    color: var(--text-dim);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    outline: none;
+    vertical-align: middle;
+    transition: all 0.15s;
+  }
+  .version-badge:focus { border-color: var(--trial); background: var(--surface); color: var(--text); }
+
+  .revision-badge {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-left: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    user-select: none;
+    font-weight: 500;
+  }
+
+  /* VIEW SWITCHER */
+  .view-switcher {
+    display: flex;
+    background: var(--surface2);
+    padding: 4px;
+    border-radius: 8px;
+    margin-left: 24px;
+    border: 1px solid var(--border);
+  }
+  .view-btn {
+    padding: 5px 14px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .view-btn.active {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+
+  /* GLOBAL SEARCH */
+  .header-actions { display: flex; gap: 8px; align-items: center; }
+  .search-box input {
+    padding: 7px 12px;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    font-size: 13px;
+    outline: none;
+    width: 200px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .search-box input:focus {
+    border-color: var(--trial);
+    background: var(--surface);
+  }
+
+  .btn {
+    padding: 7px 14px; border-radius: 7px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text); font-family: inherit;
+    font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .btn:hover { background: var(--surface2); border-color: #bfc3ce; }
+  .btn-primary { background: var(--adopt); border-color: var(--adopt); color: #fff; }
+  .btn-primary:hover { background: #16783a; }
+  body.dark .btn-primary { background: #238636; border-color: #238636; }
+  body.dark .btn-primary:hover { background: #2ea043; }
+  .btn-icon { padding: 7px 10px; font-size: 15px; line-height: 1; }
+  .btn-save { background: var(--trial); border-color: var(--trial); color: #fff; font-weight: 600; }
+  .btn-save:hover { background: #245fa0; border-color: #245fa0; }
+  body.dark .btn-save { background: #1f6feb; border-color: #1f6feb; }
+  body.dark .btn-save:hover { background: #388bfd; }
+
+  /* LAYOUT */
+  .main-layout {
+    display: flex;
+    height: calc(100vh - 69px);
+    width: 100%;
+  }
+
+  /* RADAR WRAPPER */
+  #radarViewWrapper {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    position: relative;
+  }
+
+  #printRadarHeader { display: none; }
+
+  /* RADAR */
+  .radar-container {
+    position: relative;
+    flex: 1;
+    min-width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .radar-svg {
+    width: 100%;
+    max-width: 740px;
+    aspect-ratio: 1;
+  }
+
+  /* RESIZER */
+  .resizer {
+    width: 6px;
+    cursor: col-resize;
+    background: var(--border);
+    transition: background 0.15s;
+    z-index: 10;
+  }
+  .resizer:hover, .resizer.active { background: var(--trial); }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 360px;
+    min-width: 250px;
+    max-width: 85vw; /* Allowed to stretch significantly for multi-column expansion */
+    flex-shrink: 0;
+    border-left: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .sidebar-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .sidebar-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .sidebar-stats {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+
+  /* SIDEBAR TOGGLE */
+  .sidebar-toggle {
+    display: flex;
+    background: var(--surface2);
+    padding: 3px;
+    border-radius: 7px;
+    margin-top: 8px;
+    border: 1px solid var(--border);
+  }
+  .sidebar-toggle-btn {
+    flex: 1;
+    padding: 5px 0;
+    border: none;
+    background: transparent;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+  .sidebar-toggle-btn.active {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+
+  /* RESPONSIVE FLUID GRID FOR SIDEBAR CONTENT */
+  .sidebar-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    display: grid;
+    /* Dynamically spawns columns as the sidebar is dragged wider */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    align-items: start;
+    align-content: start;
+    gap: 16px;
+  }
+
+  /* BOARD VIEW */
+  .board-container {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+    padding: 24px;
+    overflow-x: auto;
+    background: var(--bg);
+  }
+  .board-col {
+    flex: 1;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .board-col.drag-over { background: var(--surface2); border-color: var(--text-dim); }
+  .board-col-header {
+    padding: 14px 18px;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid;
+    background: var(--surface);
+  }
+  .board-count {
+    background: var(--surface2);
+    color: var(--text-dim);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .board-col-body {
+    padding: 16px;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--bg);
+  }
+  .board-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    cursor: grab;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    transition: all 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .board-card:hover { border-color: var(--border); box-shadow: 0 6px 12px rgba(0,0,0,0.05); transform: translateY(-1px); }
+  .board-card.selected { outline: 2px solid var(--q2); }
+  .board-card-title { font-weight: 600; font-size: 13px; line-height: 1.3; }
+  .board-card-title .num { color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 11px; margin-right: 4px; font-weight: 500; }
+  .board-card-quad { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-dim); font-weight: 500; }
+  .board-card-quad .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .board-card-desc { font-size: 12px; color: var(--text-dim); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-top: 4px; border-top: 1px dashed var(--border); padding-top: 8px; }
+
+  /* BOARD META LABELS */
+  .board-card-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; font-size: 11px; color: var(--text-dim); }
+  .meta-tag { background: var(--surface2); padding: 3px 6px; border-radius: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: flex; align-items: center; gap: 4px; border: 1px solid var(--border); }
+  .meta-tag.link { color: var(--trial); text-decoration: none; cursor: pointer; border-color: var(--trial-bg); background: var(--trial-bg); }
+  .meta-tag.link:hover { text-decoration: underline; background: rgba(43,108,176,0.2); }
+  body.dark .meta-tag.link { border-color: rgba(88,166,255,0.2); background: rgba(88,166,255,0.1); }
+  body.dark .meta-tag.link:hover { background: rgba(88,166,255,0.25); }
+
+  .board-dragging { opacity: 0.5; }
+
+  /* QUADRANT SECTIONS (Sidebar) */
+  .quadrant-section { min-width: 0; }
+  .quadrant-label {
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    padding: 5px 10px; border-radius: 6px; margin-bottom: 4px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .quadrant-label .dot { width: 7px; height: 7px; border-radius: 50%; }
+
+  .item-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+  .item-entry {
+    display: flex; align-items: center; gap: 6px;
+    padding: 4px 8px; border-radius: 6px; cursor: pointer;
+    transition: background 0.12s; font-size: 12px;
+    position: relative;
+  }
+  .item-entry:hover { background: var(--surface2); }
+  .item-entry .drag-handle {
+    cursor: grab; color: var(--border); font-size: 11px;
+    user-select: none; padding: 0 2px; line-height: 1;
+    transition: color 0.12s; flex-shrink: 0;
+  }
+  .item-entry:hover .drag-handle { color: var(--text-dim); }
+  .item-entry .drag-handle:active { cursor: grabbing; }
+  .item-entry .num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); min-width: 18px; flex-shrink: 0; }
+  .item-entry .item-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .item-entry .ring-badge {
+    font-size: 9px; font-weight: 700; padding: 2px 6px;
+    border-radius: 4px; margin-left: auto; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0;
+  }
+  .ring-adopt { background: var(--adopt); color: #fff; }
+  .ring-trial { background: var(--trial); color: #fff; }
+  .ring-assess { background: var(--assess); color: #fff; }
+  .ring-observe { background: var(--observe); color: #fff; }
+
+  /* DELETE BUTTON ON HOVER */
+  .item-entry .delete-btn {
+    display: none; position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+    width: 20px; height: 20px; border-radius: 5px; border: none; background: var(--observe-bg);
+    color: var(--observe); font-size: 11px; cursor: pointer; align-items: center; justify-content: center;
+    line-height: 1; transition: background 0.12s;
+  }
+  .item-entry:hover .delete-btn { display: flex; }
+  .item-entry:hover .ring-badge { display: none; }
+  .item-entry .delete-btn:hover { background: var(--observe); color: #fff; }
+
+  /* WELCOME SCREEN */
+  .welcome-screen {
+    position: fixed; inset: 0; background: var(--surface); z-index: 2000;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 30px;
+  }
+  .welcome-screen h1 { font-size: 28px; margin-bottom: 12px; font-weight: 700; letter-spacing: -0.5px; }
+  .welcome-screen p { color: var(--text-dim); margin-bottom: 32px; max-width: 480px; line-height: 1.6; font-size: 15px; }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.25); backdrop-filter: blur(3px);
+    z-index: 100; align-items: center; justify-content: center;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 28px; width: 580px; max-width: 90vw;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.12);
+  }
+  .modal h2 { font-size: 17px; margin-bottom: 20px; font-weight: 600; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label {
+    display: block; font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase;
+    letter-spacing: 0.7px; margin-bottom: 5px;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 9px 12px; border-radius: 7px; border: 1px solid var(--border); background: var(--bg);
+    color: var(--text); font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.15s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--q2); box-shadow: 0 0 0 3px rgba(109,77,199,0.1);
+  }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .modal-actions { display:flex; gap:10px; justify-content: flex-end; margin-top: 22px; }
+
+  /* TOOLTIP */
+  .tooltip {
+    display: none; position: fixed; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 13px 15px; z-index: 1000; max-width: 300px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+  }
+  .tooltip.active { display: block; }
+  .tooltip-name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+  .tooltip-detail { font-size: 12px; color: var(--text-dim); line-height: 1.45; }
+  .tooltip-detail a { color: var(--trial); text-decoration: none; font-weight: 500; }
+  .tooltip-detail a:hover { text-decoration: underline; }
+
+  /* CONTEXT MENU */
+  .context-menu {
+    display: none; position: fixed; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 5px;
+    z-index: 9999 !important; /* Maximised to always beat tooltips */
+    min-width: 180px; box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+  }
+  .context-menu.active { display: block; }
+  .context-menu-item {
+    padding: 7px 12px; border-radius: 6px; font-size: 13px; cursor: pointer; transition: background 0.12s;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .context-menu-item:hover { background: var(--surface2); }
+  .context-menu-item.danger { color: var(--observe); }
+  .context-menu-item.danger:hover { background: var(--observe-bg); }
+  .context-menu-divider { height:1px; background:var(--border); margin:3px 0; }
+
+  .blip-dragging { opacity: 0.35; }
+  .item-entry.selected { background: var(--surface2); outline: 1px solid var(--border); }
+  .item-entry.drag-over-above { box-shadow: 0 -2px 0 0 var(--q2); }
+  .item-entry.drag-over-below { box-shadow: 0 2px 0 0 var(--q2); }
+  .item-entry.sidebar-dragging { opacity: 0.35; background: var(--surface2); }
+
+  /* HELP BANNER */
+  .help-banner {
+    padding: 10px 18px; background: var(--surface2); border-bottom: 1px solid var(--border);
+    font-size: 12px; color: var(--text-dim); line-height: 1.5;
+  }
+  .help-banner strong { color: var(--text); font-weight: 600; }
+  .help-banner .dismiss {
+    float: right; cursor: pointer; color: var(--text-dim); font-size: 16px; line-height: 1; margin-top: -2px;
+  }
+  .help-banner .dismiss:hover { color: var(--text); }
+
+  .sidebar-content::-webkit-scrollbar, .board-container::-webkit-scrollbar, .board-col-body::-webkit-scrollbar { width: 5px; height: 5px; }
+  .sidebar-content::-webkit-scrollbar-track, .board-container::-webkit-scrollbar-track, .board-col-body::-webkit-scrollbar-track { background: transparent; }
+  .sidebar-content::-webkit-scrollbar-thumb, .board-container::-webkit-scrollbar-thumb, .board-col-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ─────────────────────────────────────────────────────────
+     PRINT STYLES
+  ───────────────────────────────────────────────────────── */
+  @media print {
+    @page { size: A4 landscape; margin: 0; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+    body, body.dark {
+      background: #fff !important;
+      color: #1A1D27 !important;
+      padding: 0.5cm !important;
+      box-sizing: border-box !important;
+    }
+
+    .header, .help-banner, .resizer, .sidebar, .board-container,
+    .modal-overlay, .tooltip, .context-menu {
+      display: none !important;
+    }
+
+    .main-layout { display: block; height: auto; }
+    #radarViewWrapper { display: block !important; height: 100%; }
+
+    #printRadarHeader {
+      display: flex !important;
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 0;
+      border-bottom: 2px solid #1A1D27;
+      padding-bottom: 10px;
+      z-index: 10;
+    }
+    #printRadarHeader img { height: 24px; object-fit: contain; }
+    #printRadarHeader h2 { margin: 0; padding: 0; border: none; font-size: 16px; color: #1A1D27; font-weight: 700; }
+
+    #printLayout { display: block !important; }
+    .print-page { page-break-after: always; padding-top: 0; position: relative; }
+    .print-page h2 { font-size: 16px; font-weight: 700; margin-bottom: 12px; padding-bottom: 6px; color: #1A1D27; }
+
+    /* PAGE 1: Radar */
+    .radar-container {
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 1cm);
+      page-break-after: always;
+      margin-top: 0;
+      position: relative;
+    }
+    .radar-svg { max-width: 85vh; max-height: 85vh; width: 100%; height: 100%; margin: 0 auto; }
+
+    /* Quadrant & Ring List Views */
+    .print-legend { display: grid !important; grid-template-columns: 1fr 1fr; gap: 14px 32px; }
+    .print-legend-section { break-inside: avoid; }
+    .print-legend-section h3 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; padding-bottom: 3px; border-bottom: 1px solid #ddd; }
+    .print-legend-item { display: flex; align-items: baseline; gap: 6px; font-size: 9px; line-height: 1.6; padding: 1px 0; }
+    .print-legend-item .pnum { font-family: 'JetBrains Mono', monospace; font-weight: 700; min-width: 18px; color: #555; }
+    .print-legend-item .pring { font-weight: 700; font-size: 7px; text-transform: uppercase; letter-spacing: 0.3px; padding: 2px 6px; border-radius: 4px; margin-left: auto; white-space: nowrap; }
+
+    .pring-adopt { background: #1A8A3F; color: #fff; }
+    .pring-trial { background: #2B6CB0; color: #fff; }
+    .pring-assess { background: #C87E1A; color: #fff; }
+    .pring-observe { background: #64748B; color: #fff; }
+
+    /* Detail Table */
+    .print-detail-table { width: 100%; border-collapse: collapse; font-size: 9px; }
+    .print-detail-table th { text-align: left; font-weight: 700; font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 8px; border-bottom: 2px solid #333; color: #333; background: #f0f0f0; }
+    .print-detail-table td { padding: 6px 8px; border-bottom: 1px solid #e0e0e0; vertical-align: top; line-height: 1.4; color: #333; }
+    .print-detail-table tr:nth-child(even) td { background: #fafafa; }
+    .print-detail-table .td-num { font-family: 'JetBrains Mono', monospace; font-weight: 700; width: 25px; text-align: center; color: #555; }
+    .print-detail-table .td-name { font-weight: 600; width: 18%; }
+    .print-detail-table .td-owner { width: 12%; color: #555; }
+    .print-detail-table .td-ticket { width: 10%; font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #2B6CB0; }
+    .print-detail-table .td-quadrant { width: 12%; color: #555; }
+    .print-detail-table .td-ring { width: 55px; text-align: center; }
+    .print-detail-table .td-ring span { font-weight: 700; font-size: 7.5px; text-transform: uppercase; letter-spacing: 0.3px; padding: 2px 6px; border-radius: 4px; color: #fff; }
+    .print-detail-table .td-desc { color: #333; }
+  }
+</style>
+</head>
+<body>
+
+<!-- WELCOME SCREEN -->
+<div class="welcome-screen" id="welcomeScreen">
+  <img src="ai-inventory.png" alt="OSB Group" style="height: 56px; margin-bottom: 20px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+  <div class="logo-mark" style="width: 56px; height: 56px; font-size: 20px; border-radius: 14px; margin-bottom: 20px; display: none;">AI</div>
+  <h1>Welcome to AI Inventory</h1>
+  <p>To ensure you are working with the single source of truth, please load your latest JSON data file. The visual identifiers are permanently mapped to your data for safe reporting.</p>
+  <button class="btn btn-primary" style="padding: 10px 24px; font-size: 15px;" onclick="loadJsonFile()">⤒ Load ai-inventory.json</button>
+</div>
+
+<div class="header">
+  <div class="header-left">
+    <img src="ai-inventory.png" alt="OSB Group" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+    <div class="logo-mark" style="display: none;">AI</div>
+    <h1>
+      AI Inventory
+      <span id="versionBadge" class="version-badge" contenteditable="true" onblur="updateVersion(this.innerText)">v1.0</span>
+      <span id="revisionBadge" class="revision-badge" title="Auto-tracked revision count">r0</span>
+    </h1>
+    <div class="view-switcher">
+      <button id="btnViewRadar" class="view-btn active" onclick="setView('radar')">Radar</button>
+      <button id="btnViewBoard" class="view-btn" onclick="setView('board')">Board</button>
+    </div>
+  </div>
+  <div class="header-actions">
+    <div class="search-box">
+      <input type="text" id="globalSearch" placeholder="Search inventory..." oninput="filterViews()">
+    </div>
+    <span id="saveStatus" style="font-size: 11px; color: var(--adopt); font-weight: 500; opacity: 1; transition: opacity 0.5s; align-self: center; margin-right: 4px;"></span>
+    <button class="btn btn-icon" onclick="toggleTheme()" id="themeToggle" title="Toggle dark/light mode">🌙</button>
+    <button class="btn btn-save" onclick="saveData()" title="Save to JSON file (Ctrl+S)">💾 Save</button>
+    <button class="btn" onclick="loadJsonFile()" title="Load a JSON file">⤒ Load</button>
+    <button class="btn" onclick="window.print()" title="Print / Save as PDF">🖨 Print</button>
+    <button class="btn btn-primary" onclick="openAddModal()">+ Add Item</button>
+  </div>
+</div>
+
+<div id="helpBanner" class="help-banner"><span class="dismiss" onclick="this.parentElement.style.display='none'">✕</span><span id="bannerText"><strong>Best Practice:</strong> The visual ID numbers are permanently bound to the database ID for safe reporting tracking. To update your local data, click <strong>⤒ Load</strong>. Click <strong>💾 Save</strong> to persist your edits.</span></div>
+
+<div class="main-layout">
+
+  <!-- RADAR VIEW -->
+  <div id="radarViewWrapper">
+    <div class="radar-container" id="radarContainer">
+      <!-- PRINT ONLY HEADER inside relative container so it overlays cleanly -->
+      <div id="printRadarHeader"></div>
+
+      <svg class="radar-svg" id="radarSvg" viewBox="0 0 720 720"></svg>
+    </div>
+    <div id="resizer" class="resizer"></div>
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-header-top">
+          Inventory List
+          <span id="itemCount" style="color:var(--text-dim);font-weight:400;font-size:12px">0 items</span>
+        </div>
+        <div class="sidebar-stats" id="sidebarStats"></div>
+        <div class="sidebar-toggle">
+          <button id="btnGroupQuad" class="sidebar-toggle-btn active" onclick="setSidebarGroup('quadrant')">By Quadrant</button>
+          <button id="btnGroupPhase" class="sidebar-toggle-btn" onclick="setSidebarGroup('phase')">By Phase</button>
+        </div>
+      </div>
+      <div class="sidebar-content" id="sidebarContent"></div>
+    </div>
+  </div>
+
+  <!-- BOARD VIEW -->
+  <div class="board-container" id="boardContainer" style="display: none;"></div>
+
+</div>
+
+<!-- PRINT-ONLY LAYOUT CONTAINER -->
+<div id="printLayout" style="display:none"></div>
+
+<!-- ADD/EDIT MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h2 id="modalTitle">Add AI Item</h2>
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" id="itemName" placeholder="e.g. Claude API">
+    </div>
+    <div class="form-group">
+      <label>Quadrant</label>
+      <select id="itemQuadrant">
+        <option value="0">AI Models & LLMs</option>
+        <option value="1">AI-Powered Tools & Platforms</option>
+        <option value="2">Internal AI Use Cases</option>
+        <option value="3">Customer AI Use Cases</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Phase / Ring</label>
+      <select id="itemRing">
+        <option value="0">Adopt</option>
+        <option value="1">Trial</option>
+        <option value="2">Assess</option>
+        <option value="3">Observe</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Primary Contact / Owner (optional)</label>
+      <input type="text" id="itemOwner" placeholder="e.g. Engineering Team / Jane Doe">
+    </div>
+    <div class="form-group">
+      <label>Tech Governance Approval URL (optional)</label>
+      <input type="url" id="itemTicket" placeholder="https://jira.osb.group/browse/TECH-123">
+    </div>
+    <div class="form-group">
+      <label>Description (optional)</label>
+      <textarea id="itemDesc" placeholder="Brief notes on usage, risk considerations..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" id="modalSaveBtn" onclick="saveItem()">Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLTIP -->
+<div class="tooltip" id="tooltip">
+  <div class="tooltip-name" id="tooltipName"></div>
+  <div class="tooltip-detail" id="tooltipDetail"></div>
+</div>
+
+<!-- CONTEXT MENU -->
+<div class="context-menu" id="contextMenu">
+  <!-- Content dynamically generated in JS based on sidebar view -->
+</div>
+
+<script>
+// ── HTML SANITISER ──
+function sanitize(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function sanitizeMultiline(str) {
+  return sanitize(str).replace(/\n/g, '<br>');
+}
+
+function sanitizeUrl(url) {
+  if (!url) return '';
+  try {
+    const parsed = new URL(String(url), window.location.href);
+    return ['http:', 'https:'].includes(parsed.protocol) ? parsed.href : '';
+  } catch (e) {
+    return '';
+  }
+}
+
+function serializeItemsForPersistence() {
+  return items.map(({ id, name, quadrant, ring, owner = '', ticket = '', desc = '' }) => ({
+    id,
+    name,
+    quadrant,
+    ring,
+    owner,
+    ticket,
+    desc
+  }));
+}
+
+function validateAndNormaliseItems(rawItems) {
+  if (!Array.isArray(rawItems)) {
+    throw new Error('The JSON file must contain an items array.');
+  }
+
+  const seenIds = new Set();
+  return rawItems.map((item, i) => {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) {
+      throw new Error(`Item ${i + 1} is not a valid object.`);
+    }
+
+    const id = Number(item.id ?? (i + 1));
+    if (!Number.isInteger(id) || id <= 0) {
+      throw new Error(`Item ${i + 1} has an invalid id.`);
+    }
+    if (seenIds.has(id)) {
+      throw new Error(`Duplicate item id found: ${id}.`);
+    }
+    seenIds.add(id);
+
+    const name = typeof item.name === 'string' ? item.name.trim() : '';
+    if (!name) {
+      throw new Error(`Item ${id} is missing a valid name.`);
+    }
+
+    const quadrant = Number(item.quadrant);
+    if (!Number.isInteger(quadrant) || quadrant < 0 || quadrant >= QUADRANT_DEFS.length) {
+      throw new Error(`Item ${id} has an invalid quadrant.`);
+    }
+
+    const ring = Number(item.ring);
+    if (!Number.isInteger(ring) || ring < 0 || ring >= RING_DEFS.length) {
+      throw new Error(`Item ${id} has an invalid ring.`);
+    }
+
+    return {
+      id,
+      name,
+      quadrant,
+      ring,
+      owner: typeof item.owner === 'string' ? item.owner.trim() : '',
+      ticket: typeof item.ticket === 'string' ? item.ticket.trim() : '',
+      desc: typeof item.desc === 'string' ? item.desc.trim() : ''
+    };
+  });
+}
+
+let currentVersion = '1.0';
+let revisionCount = 0;
+
+function updateRevisionDisplay() {
+  const badge = document.getElementById('revisionBadge');
+  if(badge) badge.innerText = 'r' + revisionCount;
+}
+
+function bumpRevision() {
+  revisionCount++;
+  updateRevisionDisplay();
+  markDirty();
+}
+
+function updateVersion(val) {
+  const newVal = val.replace(/^v/i, '').trim();
+  if (newVal !== currentVersion) {
+    currentVersion = newVal;
+    revisionCount = 0; // Reset revision for the new major/minor version
+    updateRevisionDisplay();
+    markDirty();
+  }
+  document.getElementById('versionBadge').innerText = 'v' + currentVersion;
+}
+
+const QUADRANT_DEFS = [
+  { name: 'AI Models & LLMs', cssVar: '--q1' },
+  { name: 'AI-Powered Tools & Platforms', cssVar: '--q2' },
+  { name: 'Internal AI Use Cases', cssVar: '--q3' },
+  { name: 'Customer AI Use Cases', cssVar: '--q4' }
+];
+
+const RING_DEFS = [
+  { name: 'Adopt', cssVar: '--adopt', radius: 0.38, labelRadius: 0.19, desc: 'Proven and trusted AI technologies or use cases with demonstrated value across OSB. Recommended for active deployment and scaled use within appropriate governance guardrails.' },
+  { name: 'Trial', cssVar: '--trial', radius: 0.62, labelRadius: 0.50, desc: 'AI technologies or use cases with promising signals, currently being piloted in bounded contexts to gather evidence. Adoption decisions are pending validated outcomes.' },
+  { name: 'Assess', cssVar: '--assess', radius: 0.82, labelRadius: 0.71, desc: 'AI technologies or use cases under structured evaluation. Being reviewed for strategic fit, risk profile, and alignment with OSB\'s capability roadmap before any commitment to trial.' },
+  { name: 'Observe', cssVar: '--observe', radius: 1.00, labelRadius: 0.93, desc: 'Early-stage or emerging AI developments being monitored for relevance. No active evaluation underway - tracked to inform future prioritisation.' }
+];
+
+function getThemeColors() {
+  const cs = getComputedStyle(document.documentElement);
+  const QUADRANTS = QUADRANT_DEFS.map(q => ({ ...q, color: cs.getPropertyValue(q.cssVar).trim() }));
+  const RINGS = RING_DEFS.map(r => ({ ...r, color: cs.getPropertyValue(r.cssVar).trim() }));
+  return { QUADRANTS, RINGS, bg: cs.getPropertyValue('--bg').trim() };
+}
+
+const CX = 360, CY = 360, MAX_R = 345;
+let currentView = 'radar';
+let sidebarGroupBy = 'quadrant';
+
+let items = [];
+let nextId = 1;
+
+let editingId = null, contextItemId = null, selectedId = null, dragItemId = null;
+let radarHoverTimer;
+
+// ── VIEW SWITCHING ──
+function setView(view) {
+  currentView = view;
+  document.getElementById('btnViewRadar').classList.toggle('active', view === 'radar');
+  document.getElementById('btnViewBoard').classList.toggle('active', view === 'board');
+
+  if (view === 'radar') {
+    document.getElementById('radarViewWrapper').style.display = 'flex';
+    document.getElementById('boardContainer').style.display = 'none';
+  } else {
+    document.getElementById('radarViewWrapper').style.display = 'none';
+    document.getElementById('boardContainer').style.display = 'flex';
+  }
+  refreshUI();
+}
+
+function setSidebarGroup(group) {
+  sidebarGroupBy = group;
+  document.getElementById('btnGroupQuad').classList.toggle('active', group === 'quadrant');
+  document.getElementById('btnGroupPhase').classList.toggle('active', group === 'phase');
+  renderSidebar();
+}
+
+// ── CORE RENDERING ──
+function refreshUI() {
+  if (items.length > 0) {
+    const el = document.getElementById('welcomeScreen');
+    if (el) el.style.display = 'none';
+  }
+
+  renderRadar();
+  renderSidebar();
+  renderBoard();
+  renderPrintLayout();
+  filterViews();
+}
+
+// ── RESIZER LOGIC ──
+const resizer = document.getElementById('resizer');
+const sidebar = document.querySelector('.sidebar');
+let isResizing = false;
+
+resizer.addEventListener('mousedown', (e) => {
+  isResizing = true;
+  document.body.style.cursor = 'col-resize';
+  resizer.classList.add('active');
+  e.preventDefault();
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!isResizing) return;
+  let newWidth = window.innerWidth - e.clientX;
+  if (newWidth < 250) newWidth = 250;
+  if (newWidth > window.innerWidth * 0.7) newWidth = window.innerWidth * 0.7; // Allowed to go wider
+  sidebar.style.width = newWidth + 'px';
+});
+
+document.addEventListener('mouseup', () => {
+  if (isResizing) {
+    isResizing = false;
+    document.body.style.cursor = '';
+    resizer.classList.remove('active');
+  }
+});
+
+// ── SVG RENDERING ──
+function renderRadar() {
+  const { QUADRANTS, RINGS, bg } = getThemeColors();
+  const svg = document.getElementById('radarSvg');
+  svg.innerHTML = '';
+  const ns = 'http://www.w3.org/2000/svg';
+
+  for (let r = RINGS.length - 1; r >= 0; r--) {
+    const fill = document.createElementNS(ns, 'circle');
+    fill.setAttribute('cx', CX); fill.setAttribute('cy', CY);
+    fill.setAttribute('r', RINGS[r].radius * MAX_R);
+    fill.setAttribute('fill', RINGS[r].color);
+    fill.setAttribute('fill-opacity', '0.04');
+    svg.appendChild(fill);
+  }
+
+  const cs = getComputedStyle(document.documentElement);
+  const strokeColor = cs.getPropertyValue('--ring-stroke').trim();
+  const axisColor = cs.getPropertyValue('--axis').trim();
+
+  for (let r = RINGS.length - 1; r >= 0; r--) {
+    const c = document.createElementNS(ns, 'circle');
+    c.setAttribute('cx', CX); c.setAttribute('cy', CY);
+    c.setAttribute('r', RINGS[r].radius * MAX_R);
+    c.setAttribute('fill', 'none');
+    c.setAttribute('stroke', strokeColor);
+    c.setAttribute('stroke-width', '1');
+    c.setAttribute('stroke-dasharray', r === 0 ? 'none' : '4 3');
+    c.id = `ring-${r}`;
+    svg.appendChild(c);
+  }
+
+  [['h', CX - MAX_R, CY, CX + MAX_R, CY], ['v', CX, CY - MAX_R, CX, CY + MAX_R]].forEach(([, x1,y1,x2,y2]) => {
+    const l = document.createElementNS(ns, 'line');
+    l.setAttribute('x1',x1); l.setAttribute('y1',y1);
+    l.setAttribute('x2',x2); l.setAttribute('y2',y2);
+    l.setAttribute('stroke', axisColor); l.setAttribute('stroke-width','1');
+    svg.appendChild(l);
+  });
+
+  const lp = [
+    { x: CX + MAX_R/2, y: CY - MAX_R + 20, anchor:'middle' },
+    { x: CX - MAX_R/2, y: CY - MAX_R + 20, anchor:'middle' },
+    { x: CX - MAX_R/2, y: CY + MAX_R - 10, anchor:'middle' },
+    { x: CX + MAX_R/2, y: CY + MAX_R - 10, anchor:'middle' }
+  ];
+  for (let q = 0; q < 4; q++) {
+    const t = document.createElementNS(ns, 'text');
+    t.setAttribute('x', lp[q].x); t.setAttribute('y', lp[q].y);
+    t.setAttribute('text-anchor', lp[q].anchor);
+    t.setAttribute('fill', QUADRANTS[q].color);
+    t.setAttribute('font-size', '14');
+    t.setAttribute('font-weight', '700');
+    t.setAttribute('font-family', 'DM Sans, sans-serif');
+    t.setAttribute('letter-spacing', '0.5'); t.setAttribute('opacity', '0.85');
+    t.textContent = QUADRANTS[q].name;
+    svg.appendChild(t);
+  }
+
+  const positioned = positionItems();
+  positioned.forEach(item => {
+    const g = document.createElementNS(ns, 'g');
+    g.setAttribute('class', 'blip');
+    g.setAttribute('data-id', item.id);
+    g.style.cursor = 'grab';
+
+    const circle = document.createElementNS(ns, 'circle');
+    circle.setAttribute('cx', item.x); circle.setAttribute('cy', item.y);
+    circle.setAttribute('r', '14');
+    circle.setAttribute('fill', QUADRANTS[item.quadrant].color);
+    circle.setAttribute('fill-opacity', selectedId === item.id ? '1' : '0.88');
+    circle.setAttribute('stroke', selectedId === item.id ? cs.getPropertyValue('--text').trim() : '#fff');
+    circle.setAttribute('stroke-width', selectedId === item.id ? '3' : '1.5');
+
+    const text = document.createElementNS(ns, 'text');
+    text.setAttribute('x', item.x); text.setAttribute('y', item.y + 4);
+    text.setAttribute('text-anchor', 'middle'); text.setAttribute('fill', '#fff');
+    text.setAttribute('font-size', '10.5');
+    text.setAttribute('font-weight', '700');
+    text.setAttribute('font-family', 'JetBrains Mono, monospace');
+    text.textContent = item.id;
+
+    g.appendChild(circle);
+    g.appendChild(text);
+
+    g.addEventListener('mouseenter', (e) => {
+      clearTimeout(radarHoverTimer);
+      radarHoverTimer = setTimeout(() => showTooltip(e, item), 600);
+    });
+    g.addEventListener('mouseleave', () => {
+      clearTimeout(radarHoverTimer);
+      hideTooltip();
+    });
+    g.addEventListener('contextmenu', (e) => showContextMenu(e, item.id));
+    g.addEventListener('click', () => selectItem(item.id));
+    g.addEventListener('mousedown', (e) => startDrag(e, item.id));
+    svg.appendChild(g);
+  });
+
+  for (let r = 0; r < RINGS.length; r++) {
+    const midX = CX + (RINGS[r].labelRadius * MAX_R);
+    const midY = CY;
+
+    const g = document.createElementNS(ns, 'g');
+    g.style.cursor = 'help';
+
+    g.addEventListener('mouseenter', (e) => {
+      clearTimeout(radarHoverTimer);
+      radarHoverTimer = setTimeout(() => showRingTooltip(e, RINGS[r]), 600);
+    });
+    g.addEventListener('mouseleave', () => {
+      clearTimeout(radarHoverTimer);
+      hideTooltip();
+    });
+
+    const labelStr = RINGS[r].name.toUpperCase();
+    const textWidth = labelStr.length * 7.5 + 16;
+
+    const bgRect = document.createElementNS(ns, 'rect');
+    bgRect.setAttribute('x', midX - textWidth/2);
+    bgRect.setAttribute('y', midY - 10);
+    bgRect.setAttribute('width', textWidth);
+    bgRect.setAttribute('height', '20');
+    bgRect.setAttribute('rx', '10');
+    bgRect.setAttribute('fill', bg);
+    bgRect.setAttribute('stroke', RINGS[r].color);
+    bgRect.setAttribute('stroke-width', '1.5');
+    bgRect.setAttribute('opacity', '0.95');
+
+    const text = document.createElementNS(ns, 'text');
+    text.setAttribute('x', midX);
+    text.setAttribute('y', midY + 3.5);
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('fill', RINGS[r].color);
+    text.setAttribute('font-size', '10');
+    text.setAttribute('font-weight', '700');
+    text.setAttribute('font-family', 'DM Sans, sans-serif');
+    text.setAttribute('letter-spacing', '1.2');
+    text.textContent = labelStr;
+
+    g.appendChild(bgRect);
+    g.appendChild(text);
+    svg.appendChild(g);
+  }
+}
+
+function positionItems() {
+  const { RINGS } = getThemeColors();
+  const groups = {};
+  items.forEach((item) => {
+    const key = `${item.quadrant}-${item.ring}`;
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(item);
+  });
+
+  const result = [];
+
+  const qAngles = [
+    [-Math.PI/2 + 0.25, -0.40],
+    [-Math.PI + 0.40, -Math.PI/2 - 0.25],
+    [Math.PI/2 + 0.25, Math.PI - 0.40],
+    [0.40, Math.PI/2 - 0.25]
+  ];
+
+  for (const key in groups) {
+    const [q, r] = key.split('-').map(Number);
+    const group = groups[key];
+    const innerR = r > 0 ? RINGS[r-1].radius * MAX_R + 18 : 35;
+    const outerR = RINGS[r].radius * MAX_R - 18;
+    const [startAngle, endAngle] = qAngles[q];
+
+    group.forEach((item, i) => {
+      const t = group.length === 1 ? 0.5 : i / (group.length - 1);
+      const angle = startAngle + t * (endAngle - startAngle);
+      const rOffset = ((i * 7 + 3) % 5) / 5;
+      const radius = innerR + (outerR - innerR) * (0.2 + rOffset * 0.6);
+      item.x = CX + radius * Math.cos(angle);
+      item.y = CY + radius * Math.sin(angle);
+      item.innerBound = innerR;
+      item.outerBound = outerR;
+      result.push(item);
+    });
+  }
+
+  if (result.length <= 80) {
+    for (let iter = 0; iter < 100; iter++) {
+      result.forEach(item => {
+        result.forEach(other => {
+          if (item.id === other.id) return;
+          const dx = item.x - other.x;
+          const dy = item.y - other.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          const minDist = 30;
+          if (dist < minDist && dist > 0) {
+            const push = (minDist - dist) * 0.15;
+            item.x += (dx / dist) * push;
+            item.y += (dy / dist) * push;
+          }
+        });
+
+        const distFromCenter = Math.sqrt(Math.pow(item.x - CX, 2) + Math.pow(item.y - CY, 2));
+        if (distFromCenter < item.innerBound) {
+           const angle = Math.atan2(item.y - CY, item.x - CX);
+           item.x = CX + item.innerBound * Math.cos(angle);
+           item.y = CY + item.innerBound * Math.sin(angle);
+        } else if (distFromCenter > item.outerBound) {
+           const angle = Math.atan2(item.y - CY, item.x - CX);
+           item.x = CX + item.outerBound * Math.cos(angle);
+           item.y = CY + item.outerBound * Math.sin(angle);
+        }
+      });
+    }
+  }
+
+  return result;
+}
+
+// ── BOARD VIEW RENDERING ──
+function renderBoard() {
+  const { QUADRANTS, RINGS } = getThemeColors();
+  const container = document.getElementById('boardContainer');
+  let html = '';
+
+  RINGS.forEach((ring, rIdx) => {
+    const ringItems = items.filter(i => i.ring === rIdx).sort((a,b) => a.quadrant - b.quadrant);
+
+    html += `<div class="board-col" ondragover="onBoardDragOver(event)" ondrop="onBoardDrop(event, ${rIdx})">
+      <div class="board-col-header" style="border-bottom-color: ${ring.color}">
+        <span style="color: ${ring.color}">${ring.name}</span>
+        <span class="board-count">${ringItems.length}</span>
+      </div>
+      <div class="board-col-body">`;
+
+    ringItems.forEach(item => {
+      const q = QUADRANTS[item.quadrant];
+
+      let metaHtml = '';
+      if (item.owner || item.ticket) {
+        metaHtml += `<div class="board-card-meta">`;
+        if (item.owner) metaHtml += `<span class="meta-tag" title="Owner: ${item.owner}">👤 ${item.owner}</span>`;
+        if (item.ticket) {
+          const displayTicket = sanitize(extractJiraTickets(item.ticket));
+          const ticketUrl = sanitizeUrl(item.ticket);
+          if (ticketUrl) {
+            metaHtml += `<a href="${ticketUrl}" target="_blank" rel="noopener noreferrer" class="meta-tag link" onclick="event.stopPropagation()" title="View Governance Ticket">🔗 ${displayTicket}</a>`;
+          }
+        }
+        metaHtml += `</div>`;
+      }
+
+      html += `
+        <div class="board-card ${selectedId === item.id ? 'selected' : ''}"
+             draggable="true"
+             data-id="${item.id}"
+             onclick="selectItem(${item.id})"
+             oncontextmenu="showContextMenu(event, ${item.id})"
+             ondragstart="onBoardDragStart(event, ${item.id})"
+             ondragend="onBoardDragEnd(event)"
+             onmouseenter="onBoardMouseEnter(event, ${item.id})"
+             onmouseleave="onBoardMouseLeave()">
+          <div class="board-card-title"><span class="num">${item.id}</span> ${sanitize(item.name)}</div>
+          <div class="board-card-quad"><div class="dot" style="background:${q.color}"></div> ${q.name}</div>
+          ${metaHtml}
+          ${item.desc ? `<div class="board-card-desc">${sanitize(item.desc)}</div>` : ''}
+        </div>
+      `;
+    });
+
+    html += `</div></div>`;
+  });
+  container.innerHTML = html;
+}
+
+let boardHoverTimer;
+function onBoardMouseEnter(e, id) {
+  const target = e.currentTarget;
+  clearTimeout(boardHoverTimer);
+  boardHoverTimer = setTimeout(() => {
+    const item = items.find(i => i.id === id);
+    if (item) {
+      showTooltip({ target: target }, item);
+    }
+  }, 600);
+}
+
+function onBoardMouseLeave() {
+  clearTimeout(boardHoverTimer);
+  hideTooltip();
+}
+
+// ── SIDEBAR RENDERING ──
+let sidebarDragId = null;
+
+function renderSidebar() {
+  const { QUADRANTS, RINGS } = getThemeColors();
+  const container = document.getElementById('sidebarContent');
+
+  const tally = [0,0,0,0];
+  items.forEach(i => tally[i.ring]++);
+
+  document.getElementById('itemCount').textContent = `${items.length} items`;
+  document.getElementById('sidebarStats').innerHTML =
+    `<span style="color:var(--adopt)">${tally[0]} Adopt</span> ·
+     <span style="color:var(--trial)">${tally[1]} Trial</span> ·
+     <span style="color:var(--assess)">${tally[2]} Assess</span> ·
+     <span style="color:var(--observe)">${tally[3]} Observe</span>`;
+
+  let html = '';
+
+  if (sidebarGroupBy === 'quadrant') {
+    for (let q = 0; q < 4; q++) {
+      const qItems = items.filter(item => item.quadrant === q);
+      if (qItems.length === 0) continue;
+      const lc = ['q1-label','q2-label','q3-label','q4-label'][q];
+      html += `<div class="quadrant-section" data-quadrant="${q}"><div class="quadrant-label ${lc}"><div class="dot" style="background:${QUADRANTS[q].color}"></div>${QUADRANTS[q].name}</div><ul class="item-list">`;
+      qItems.forEach(item => {
+        const rn = RINGS[item.ring].name.toLowerCase();
+        html += `<li class="item-entry ${selectedId === item.id ? 'selected' : ''}"
+          draggable="true" data-id="${item.id}" data-quadrant="${q}"
+          onclick="selectItem(${item.id})" oncontextmenu="showContextMenu(event, ${item.id})"
+          ondragstart="onSidebarDragStart(event, ${item.id})" ondragend="onSidebarDragEnd(event)"
+          ondragover="onSidebarDragOver(event)" ondrop="onSidebarDrop(event, ${item.id})">
+          <span class="drag-handle" title="Drag to reorder">⠿</span>
+          <span class="num">${item.id}</span>
+          <span class="item-name">${sanitize(item.name)}</span>
+          <span class="ring-badge ring-${rn}">${RINGS[item.ring].name}</span>
+          <button class="delete-btn" onclick="event.stopPropagation(); if(confirm('Are you sure you want to permanently remove this item?')) deleteItem(${item.id})" title="Remove item">✕</button>
+        </li>`;
+      });
+      html += `</ul></div>`;
+    }
+  } else {
+    for (let r = 0; r < 4; r++) {
+      const rItems = items.filter(item => item.ring === r);
+      if (rItems.length === 0) continue;
+
+      html += `<div class="quadrant-section" data-ring="${r}">
+        <div class="quadrant-label" style="color:${RINGS[r].color}; background:rgba(0,0,0,0.03); border: 1px solid ${RINGS[r].color}20;">
+          <div class="dot" style="background:${RINGS[r].color}"></div>${RINGS[r].name}
+        </div><ul class="item-list">`;
+
+      rItems.forEach(item => {
+        const qn = QUADRANTS[item.quadrant].name;
+        const qc = QUADRANTS[item.quadrant].color;
+        html += `<li class="item-entry ${selectedId === item.id ? 'selected' : ''}"
+          draggable="true" data-id="${item.id}" data-ring="${r}"
+          onclick="selectItem(${item.id})" oncontextmenu="showContextMenu(event, ${item.id})"
+          ondragstart="onSidebarDragStart(event, ${item.id})" ondragend="onSidebarDragEnd(event)"
+          ondragover="onSidebarDragOver(event)" ondrop="onSidebarDrop(event, ${item.id})">
+          <span class="drag-handle" title="Drag to reorder">⠿</span>
+          <span class="num">${item.id}</span>
+          <span class="item-name">${sanitize(item.name)}</span>
+          <span class="ring-badge" style="background:${qc}; color:#fff; max-width: 90px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${qn}">${qn}</span>
+          <button class="delete-btn" onclick="event.stopPropagation(); if(confirm('Are you sure you want to permanently remove this item?')) deleteItem(${item.id})" title="Remove item">✕</button>
+        </li>`;
+      });
+      html += `</ul></div>`;
+    }
+  }
+
+  container.innerHTML = html;
+}
+
+// ── GLOBAL SEARCH ──
+function filterViews() {
+  const q = document.getElementById('globalSearch').value.toLowerCase();
+
+  document.querySelectorAll('.item-entry').forEach(el => {
+    const name = el.querySelector('.item-name').textContent.toLowerCase();
+    el.style.display = name.includes(q) ? 'flex' : 'none';
+  });
+  document.querySelectorAll('.quadrant-section').forEach(sec => {
+    const visibleItems = Array.from(sec.querySelectorAll('.item-entry')).filter(el => el.style.display !== 'none');
+    sec.style.display = visibleItems.length ? 'block' : 'none';
+  });
+
+  document.querySelectorAll('.board-card').forEach(card => {
+    const name = card.querySelector('.board-card-title').textContent.toLowerCase();
+    const meta = card.querySelector('.board-card-meta') ? card.querySelector('.board-card-meta').textContent.toLowerCase() : '';
+    const descEl = card.querySelector('.board-card-desc');
+    const desc = descEl ? descEl.textContent.toLowerCase() : '';
+    card.style.display = (name.includes(q) || desc.includes(q) || meta.includes(q)) ? 'flex' : 'none';
+  });
+}
+
+// ── BOARD DRAG & DROP ──
+let boardDragId = null;
+function onBoardDragStart(e, id) {
+  boardDragId = id;
+  e.dataTransfer.effectAllowed = 'move';
+  e.target.classList.add('board-dragging');
+}
+function onBoardDragEnd(e) {
+  boardDragId = null;
+  e.target.classList.remove('board-dragging');
+  document.querySelectorAll('.board-col').forEach(col => col.classList.remove('drag-over'));
+}
+function onBoardDragOver(e) {
+  e.preventDefault();
+  const col = e.target.closest('.board-col');
+  if (col) {
+    document.querySelectorAll('.board-col').forEach(c => c.classList.remove('drag-over'));
+    col.classList.add('drag-over');
+  }
+}
+function onBoardDrop(e, targetRing) {
+  e.preventDefault();
+  document.querySelectorAll('.board-col').forEach(c => c.classList.remove('drag-over'));
+  if (!boardDragId) return;
+
+  const item = items.find(i => i.id === boardDragId);
+  if (item && item.ring !== targetRing) {
+    item.ring = targetRing;
+    bumpRevision();
+    refreshUI();
+  }
+  boardDragId = null;
+}
+
+// ── SIDEBAR DRAG & DROP ──
+function onSidebarDragStart(e, id) {
+  sidebarDragId = id;
+  e.dataTransfer.effectAllowed = 'move';
+  e.target.classList.add('sidebar-dragging');
+}
+function onSidebarDragEnd(e) {
+  sidebarDragId = null;
+  e.target.classList.remove('sidebar-dragging');
+  document.querySelectorAll('.drag-over-above, .drag-over-below').forEach(el => {
+    el.classList.remove('drag-over-above', 'drag-over-below');
+  });
+}
+function onSidebarDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  const li = e.target.closest('.item-entry');
+  if (!li || !sidebarDragId) return;
+
+  document.querySelectorAll('.drag-over-above, .drag-over-below').forEach(el => {
+    el.classList.remove('drag-over-above', 'drag-over-below');
+  });
+
+  const rect = li.getBoundingClientRect();
+  const midY = rect.top + rect.height / 2;
+  if (e.clientY < midY) {
+    li.classList.add('drag-over-above');
+  } else {
+    li.classList.add('drag-over-below');
+  }
+}
+function onSidebarDrop(e, targetId) {
+  e.preventDefault();
+  if (!sidebarDragId || sidebarDragId === targetId) return;
+
+  const dragItem = items.find(i => i.id === sidebarDragId);
+  const targetItem = items.find(i => i.id === targetId);
+
+  if (!dragItem || !targetItem) return;
+
+  // Adapt to the new group gracefully on drop
+  if (sidebarGroupBy === 'quadrant' && dragItem.quadrant !== targetItem.quadrant) {
+    dragItem.quadrant = targetItem.quadrant;
+  }
+  if (sidebarGroupBy === 'phase' && dragItem.ring !== targetItem.ring) {
+    dragItem.ring = targetItem.ring;
+  }
+
+  const li = e.target.closest('.item-entry');
+  const rect = li.getBoundingClientRect();
+  const dropAbove = e.clientY < rect.top + rect.height / 2;
+
+  const fromIdx = items.indexOf(dragItem);
+  items.splice(fromIdx, 1);
+
+  let toIdx = items.indexOf(targetItem);
+  if (!dropAbove) toIdx += 1;
+
+  items.splice(toIdx, 0, dragItem);
+
+  document.querySelectorAll('.drag-over-above, .drag-over-below').forEach(el => {
+    el.classList.remove('drag-over-above', 'drag-over-below');
+  });
+  sidebarDragId = null;
+  bumpRevision();
+  refreshUI();
+}
+
+// ── PRINT LAYOUT RENDERER ──
+function extractJiraTickets(ticketString) {
+  if (!ticketString) return '·';
+  const matches = ticketString.match(/[A-Z]+-\d+/g);
+  if (matches) return matches.join(', ');
+  try { return new URL(ticketString).hostname; } catch(e) { return ticketString; }
+}
+
+function renderPrintLayout() {
+  const { QUADRANTS, RINGS } = getThemeColors();
+  const printContainer = document.getElementById('printLayout');
+  const ringColors = { 0:'#1A8A3F', 1:'#2B6CB0', 2:'#C87E1A', 3:'#64748B' };
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  const versionStr = `v${currentVersion} (r${revisionCount})`;
+
+  // Inject the Radar header directly into the hidden radar wrapper specifically for Page 1
+  document.getElementById('printRadarHeader').innerHTML = `
+    <img src="ai-inventory.png" alt="OSB Group" style="height: 24px; object-fit: contain;" onerror="this.style.display='none'">
+    <h2 style="margin:0; padding:0; border:none; font-size: 16px; color:#1A1D27;">AI Inventory as of ${dateStr} - ${versionStr}</h2>
+  `;
+
+  // Shared Header HTML for explicit tabular pages
+  const printHeaderHtml = `
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom: 20px; border-bottom: 2px solid #1A1D27; padding-bottom: 10px;">
+      <img src="ai-inventory.png" alt="OSB Group" style="height: 24px; object-fit: contain;" onerror="this.style.display='none'">
+      <h2 style="margin:0; padding:0; border:none; font-size: 16px;">AI Inventory as of ${dateStr} - ${versionStr}</h2>
+    </div>
+  `;
+
+  // 1. QUADRANT PAGE
+  let quadHtml = `<div class="print-page print-quad-page">${printHeaderHtml}<h2>Inventory by Quadrant</h2><div class="print-legend">`;
+  for (let q = 0; q < 4; q++) {
+    const qItems = items.filter(item => item.quadrant === q);
+    quadHtml += `<div class="print-legend-section"><h3 style="color:${QUADRANTS[q].color}">${QUADRANTS[q].name}</h3>`;
+    if (qItems.length === 0) quadHtml += `<div style="font-size:9px;color:#999;padding:2px 0">No items</div>`;
+    qItems.forEach(item => {
+      const rn = RINGS[item.ring].name.toLowerCase();
+      quadHtml += `<div class="print-legend-item"><span class="pnum">${item.id}</span> <span>${sanitize(item.name)}</span> <span class="pring pring-${rn}">${RINGS[item.ring].name}</span></div>`;
+    });
+    quadHtml += `</div>`;
+  }
+  quadHtml += `</div></div>`;
+
+  // 2. RING (PHASE) PAGE
+  let ringHtml = `<div class="print-page print-ring-page">${printHeaderHtml}<h2>Inventory by Phase</h2><div class="print-legend">`;
+  for (let r = 0; r < 4; r++) {
+    const rItems = items.filter(item => item.ring === r).sort((a,b) => a.quadrant - b.quadrant);
+    ringHtml += `<div class="print-legend-section" style="margin-bottom: 16px;">`;
+    ringHtml += `<h3 style="color:${ringColors[r]}; margin-bottom: 2px;">${RINGS[r].name}</h3>`;
+    ringHtml += `<p style="font-size: 8px; color: #555; margin: 0 0 6px 0; line-height: 1.4;">${RINGS[r].desc}</p>`;
+
+    if (rItems.length === 0) ringHtml += `<div style="font-size:9px;color:#999;padding:2px 0">No items</div>`;
+    rItems.forEach(item => {
+      ringHtml += `<div class="print-legend-item"><span class="pnum">${item.id}</span> <span>${sanitize(item.name)}</span> <span style="font-size:7px; color:#555; margin-left:auto">${sanitize(QUADRANTS[item.quadrant].name)}</span></div>`;
+    });
+    ringHtml += `</div>`;
+  }
+  ringHtml += `</div></div>`;
+
+  // 3. DETAIL TABLE PAGE(S)
+  let dhtml = `<div class="print-page print-detail-page">`;
+  dhtml += `<table class="print-detail-table">
+    <thead>
+      <tr><th colspan="7" style="background: #fff; padding: 0; border: none; padding-bottom: 10px; text-transform: none; letter-spacing: normal;">${printHeaderHtml}</th></tr>
+      <tr>
+        <th>#</th><th>Name</th><th>Owner</th><th>Ticket</th><th>Quadrant</th><th>Phase</th><th>Description</th>
+      </tr>
+    </thead>
+    <tbody>`;
+
+  items.forEach((item) => {
+    const rn = RINGS[item.ring].name;
+    const rc = ringColors[item.ring];
+    const descHtml = item.desc ? sanitizeMultiline(item.desc) : '·';
+    const tickets = sanitize(extractJiraTickets(item.ticket));
+
+    dhtml += `<tr>
+      <td class="td-num">${item.id}</td>
+      <td class="td-name">${sanitize(item.name)}</td>
+      <td class="td-owner">${item.owner ? sanitize(item.owner) : '·'}</td>
+      <td class="td-ticket">${tickets}</td>
+      <td class="td-quadrant">${sanitize(QUADRANTS[item.quadrant].name)}</td>
+      <td class="td-ring"><span style="background:${rc}">${rn}</span></td>
+      <td class="td-desc">${descHtml}</td>
+    </tr>`;
+  });
+  dhtml += `</tbody>
+  </table></div>`;
+
+  printContainer.innerHTML = quadHtml + ringHtml + dhtml;
+}
+
+// ── INTERACTIONS ──
+function selectItem(id) { selectedId = selectedId === id ? null : id; hideContextMenu(); refreshUI(); }
+
+function deleteItem(id) {
+  items = items.filter(i => i.id !== id);
+  if (selectedId === id) selectedId = null;
+  bumpRevision();
+  refreshUI();
+}
+
+let tooltipHideTimer;
+
+function showTooltip(e, item) {
+  clearTimeout(tooltipHideTimer);
+  const { QUADRANTS, RINGS } = getThemeColors();
+  const tt = document.getElementById('tooltip');
+  document.getElementById('tooltipName').textContent = `${item.id}. ${item.name}`;
+
+  let detailHtml = `<strong>${sanitize(RINGS[item.ring].name)}</strong> · ${sanitize(QUADRANTS[item.quadrant].name)}`;
+  if (item.owner) detailHtml += `<br><strong>Owner:</strong> ${sanitize(item.owner)}`;
+  if (item.ticket) {
+    const displayTicket = sanitize(extractJiraTickets(item.ticket));
+    const ticketUrl = sanitizeUrl(item.ticket);
+    if (ticketUrl) detailHtml += `<br><strong>Ticket:</strong> <a href="${ticketUrl}" target="_blank" rel="noopener noreferrer">${displayTicket}</a>`;
+  }
+  if (item.desc) detailHtml += `<br><br>${sanitizeMultiline(item.desc)}`;
+
+  document.getElementById('tooltipDetail').innerHTML = detailHtml;
+
+  tt.classList.add('active');
+  const rect = e.target.getBoundingClientRect();
+  tt.style.left = (rect.right + 12) + 'px';
+  tt.style.top = (rect.top - 10) + 'px';
+  requestAnimationFrame(() => {
+    const tr = tt.getBoundingClientRect();
+    if (tr.right > window.innerWidth - 10) tt.style.left = (rect.left - tr.width - 12) + 'px';
+    if (tr.bottom > window.innerHeight - 10) tt.style.top = (window.innerHeight - tr.height - 10) + 'px';
+  });
+}
+
+function showRingTooltip(e, ring) {
+  clearTimeout(tooltipHideTimer);
+  const tt = document.getElementById('tooltip');
+  document.getElementById('tooltipName').textContent = ring.name + ' Phase';
+  document.getElementById('tooltipDetail').innerHTML = ring.desc;
+
+  tt.classList.add('active');
+  tt.style.left = (e.clientX + 12) + 'px';
+  tt.style.top = (e.clientY - 10) + 'px';
+  requestAnimationFrame(() => {
+    const tr = tt.getBoundingClientRect();
+    if (tr.right > window.innerWidth - 10) tt.style.left = (e.clientX - tr.width - 12) + 'px';
+    if (tr.bottom > window.innerHeight - 10) tt.style.top = (e.clientY - tr.height - 10) + 'px';
+  });
+}
+
+function hideTooltip() {
+  tooltipHideTimer = setTimeout(() => {
+    document.getElementById('tooltip').classList.remove('active');
+  }, 300);
+}
+
+document.getElementById('tooltip').addEventListener('mouseenter', () => clearTimeout(tooltipHideTimer));
+document.getElementById('tooltip').addEventListener('mouseleave', hideTooltip);
+
+function showContextMenu(e, id) {
+  e.preventDefault();
+
+  clearTimeout(tooltipHideTimer);
+  document.getElementById('tooltip').classList.remove('active');
+
+  contextItemId = id;
+  const cm = document.getElementById('contextMenu');
+
+  let menuHtml = `<div class="context-menu-item" onclick="editContextItem()">✎ Edit</div>
+                  <div class="context-menu-divider"></div>`;
+
+  if (sidebarGroupBy === 'quadrant') {
+    QUADRANT_DEFS.forEach((q, idx) => {
+      menuHtml += `<div class="context-menu-item" onclick="moveToQuadrant(${idx})">→ Move to ${q.name}</div>`;
+    });
+  } else {
+    RING_DEFS.forEach((r, idx) => {
+      menuHtml += `<div class="context-menu-item" onclick="moveToRing(${idx})">→ Move to ${r.name}</div>`;
+    });
+  }
+
+  menuHtml += `<div class="context-menu-divider"></div>
+               <div class="context-menu-item danger" onclick="deleteContextItem()">✕ Remove item</div>`;
+
+  cm.innerHTML = menuHtml;
+  cm.classList.add('active');
+
+  cm.style.left = e.clientX + 'px';
+  cm.style.top = e.clientY + 'px';
+  requestAnimationFrame(() => {
+    const r = cm.getBoundingClientRect();
+    if (r.right > window.innerWidth) cm.style.left = (e.clientX - r.width) + 'px';
+    if (r.bottom > window.innerHeight) cm.style.top = (e.clientY - r.height) + 'px';
+  });
+}
+function hideContextMenu() { document.getElementById('contextMenu').classList.remove('active'); contextItemId = null; }
+document.addEventListener('click', (e) => { if (!e.target.closest('.context-menu')) hideContextMenu(); });
+
+function moveToRing(ring) { if (contextItemId == null) return; const item = items.find(i => i.id === contextItemId); if (item && item.ring !== ring) { item.ring = ring; bumpRevision(); } hideContextMenu(); refreshUI(); }
+function moveToQuadrant(quad) { if (contextItemId == null) return; const item = items.find(i => i.id === contextItemId); if (item && item.quadrant !== quad) { item.quadrant = quad; bumpRevision(); } hideContextMenu(); refreshUI(); }
+
+function deleteContextItem() {
+  if (contextItemId == null) return;
+  if(confirm('Are you sure you want to permanently remove this item?')) {
+    deleteItem(contextItemId);
+  }
+  hideContextMenu();
+}
+function editContextItem() { if (contextItemId == null) return; openEditModal(contextItemId); hideContextMenu(); }
+
+// ── RADAR DRAG ──
+function startDrag(e, id) {
+  if (e.button !== 0) return;
+  e.preventDefault();
+  dragItemId = id;
+  const { RINGS } = getThemeColors();
+  const strokeColor = getComputedStyle(document.documentElement).getPropertyValue('--ring-stroke').trim();
+  const svg = document.getElementById('radarSvg');
+  const blip = svg.querySelector(`[data-id="${id}"]`);
+  if (blip) blip.classList.add('blip-dragging');
+
+  const onMove = (ev) => {
+    const pt = svgPoint(ev);
+    const dist = Math.sqrt((pt.x - CX)**2 + (pt.y - CY)**2);
+    for (let r = 0; r < RING_DEFS.length; r++) {
+      const el = document.getElementById(`ring-${r}`);
+      const inRing = dist <= RING_DEFS[r].radius * MAX_R && (r === 0 || dist > RING_DEFS[r-1].radius * MAX_R);
+      el.setAttribute('stroke', inRing ? RINGS[r].color : strokeColor);
+      el.setAttribute('stroke-width', inRing ? '3' : '1');
+      el.setAttribute('stroke-opacity', inRing ? '0.8' : '1');
+    }
+  };
+  const onUp = (ev) => {
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onUp);
+    if (blip) blip.classList.remove('blip-dragging');
+
+    for (let r = 0; r < RING_DEFS.length; r++) {
+      const el = document.getElementById(`ring-${r}`);
+      el.setAttribute('stroke', strokeColor);
+      el.setAttribute('stroke-width', '1');
+      el.setAttribute('stroke-opacity', '1');
+    }
+
+    const pt = svgPoint(ev);
+    const dx = pt.x - CX;
+    const dy = pt.y - CY;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+
+    let targetRing = 3;
+    for (let r = 0; r < RING_DEFS.length; r++) {
+      if (dist <= RING_DEFS[r].radius * MAX_R) { targetRing = r; break; }
+    }
+
+    const item = items.find(i => i.id === dragItemId);
+    if (item) {
+      let targetQuadrant = item.quadrant;
+
+      // Calculate new quadrant based on drop angle (if not dropped dead centre)
+      if (dist > 30) {
+        if (dx > 0 && dy < 0) targetQuadrant = 0;       // Top Right
+        else if (dx <= 0 && dy < 0) targetQuadrant = 1;  // Top Left
+        else if (dx <= 0 && dy >= 0) targetQuadrant = 2; // Bottom Left
+        else if (dx > 0 && dy >= 0) targetQuadrant = 3;  // Bottom Right
+      }
+
+      if (item.ring !== targetRing || item.quadrant !== targetQuadrant) {
+        item.ring = targetRing;
+        item.quadrant = targetQuadrant;
+        bumpRevision();
+        refreshUI();
+      }
+    }
+    dragItemId = null;
+  };
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onUp);
+}
+function svgPoint(e) {
+  const svg = document.getElementById('radarSvg');
+  const rect = svg.getBoundingClientRect();
+  return { x: (e.clientX - rect.left) * 720 / rect.width, y: (e.clientY - rect.top) * 720 / rect.height };
+}
+
+// ── MODAL ──
+function openAddModal() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = 'Add AI Item';
+  document.getElementById('modalSaveBtn').textContent = 'Add';
+  document.getElementById('itemName').value = '';
+  document.getElementById('itemQuadrant').value = '0';
+  document.getElementById('itemRing').value = '2';
+  document.getElementById('itemOwner').value = '';
+  document.getElementById('itemTicket').value = '';
+  document.getElementById('itemDesc').value = '';
+  document.getElementById('modalOverlay').classList.add('active');
+  document.getElementById('itemName').focus();
+}
+function openEditModal(id) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent = 'Edit AI Item';
+  document.getElementById('modalSaveBtn').textContent = 'Save';
+  document.getElementById('itemName').value = item.name;
+  document.getElementById('itemQuadrant').value = item.quadrant;
+  document.getElementById('itemRing').value = item.ring;
+  document.getElementById('itemOwner').value = item.owner || '';
+  document.getElementById('itemTicket').value = item.ticket || '';
+  document.getElementById('itemDesc').value = item.desc || '';
+  document.getElementById('modalOverlay').classList.add('active');
+  document.getElementById('itemName').focus();
+}
+function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); editingId = null; }
+function saveItem() {
+  const name = document.getElementById('itemName').value.trim();
+  if (!name) return;
+  const quadrant = parseInt(document.getElementById('itemQuadrant').value);
+  const ring = parseInt(document.getElementById('itemRing').value);
+  const owner = document.getElementById('itemOwner').value.trim();
+  const ticket = document.getElementById('itemTicket').value.trim();
+  const desc = document.getElementById('itemDesc').value.trim();
+
+  if (editingId != null) {
+    const item = items.find(i => i.id === editingId);
+    if (item) {
+      item.name = name;
+      item.quadrant = quadrant;
+      item.ring = ring;
+      item.owner = owner;
+      item.ticket = ticket;
+      item.desc = desc;
+    }
+  } else {
+    items.push({ id: nextId++, name, quadrant, ring, owner, ticket, desc });
+  }
+
+  bumpRevision();
+  closeModal();
+  document.getElementById('welcomeScreen').style.display = 'none';
+  refreshUI();
+}
+document.getElementById('modalOverlay').addEventListener('click', (e) => { if (e.target === e.currentTarget) closeModal(); });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { closeModal(); hideContextMenu(); }
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveData(); }
+});
+
+// ── LOCAL STORAGE PERSISTENCE ──
+const STORAGE_KEY = 'osb-ai-inventory';
+
+function autoSave() {
+  if (items.length === 0) return;
+  try {
+    const payload = { items: serializeItemsForPersistence(), nextId, savedAt: new Date().toISOString(), version: currentVersion, revision: revisionCount };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    showSaveStatus();
+  } catch (e) {
+    console.warn('localStorage save failed:', e);
+  }
+}
+
+function autoLoad() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+    const data = JSON.parse(raw);
+    if (data.items && Array.isArray(data.items) && data.items.length > 0) {
+      items = data.items;
+      nextId = data.nextId || Math.max(...items.map(i => i.id)) + 1;
+
+      if (data.version) {
+        currentVersion = data.version;
+        document.getElementById('versionBadge').innerText = 'v' + currentVersion;
+      }
+      if (data.revision !== undefined) {
+        revisionCount = data.revision;
+        updateRevisionDisplay();
+      }
+
+      const cachedDate = new Date(data.savedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+      const cachedTime = new Date(data.savedAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('bannerText').innerHTML = `<strong>✓ Loaded from browser cache (${cachedDate} at ${cachedTime}).</strong> To ensure you have the absolute latest, click <strong>⤒ Load</strong>. Click <strong>💾 Save</strong> to persist edits to JSON.`;
+
+      return true;
+    }
+  } catch (e) {
+    console.warn('localStorage load failed:', e);
+  }
+  return false;
+}
+
+function showSaveStatus() {
+  const el = document.getElementById('saveStatus');
+  const now = new Date();
+  const time = now.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+  el.textContent = `Saved ${time}`;
+  el.style.opacity = '1';
+  clearTimeout(el._fadeTimer);
+  el._fadeTimer = setTimeout(() => { el.style.opacity = '0.5'; }, 2000);
+}
+
+// ── JSON SAVE / LOAD ──
+var fileHandle = null;
+var hasUnsavedChanges = false;
+
+function buildJsonPayload() {
+  return JSON.stringify({
+    title: 'OSB Group AI Inventory',
+    version: currentVersion,
+    revision: revisionCount,
+    saved: new Date().toISOString(),
+    quadrants: QUADRANT_DEFS.map(q => q.name),
+    rings: RING_DEFS.map(r => r.name),
+    items: serializeItemsForPersistence(),
+    nextId: nextId
+  }, null, 2);
+}
+
+async function saveData() {
+  const json = buildJsonPayload();
+  const supportsFS = ('showSaveFilePicker' in window);
+
+  if (supportsFS) {
+    try {
+      if (!fileHandle) {
+        fileHandle = await window.showSaveFilePicker({
+          suggestedName: 'ai-inventory.json',
+          types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }]
+        });
+      }
+      const writable = await fileHandle.createWritable();
+      await writable.write(json);
+      await writable.close();
+      hasUnsavedChanges = false;
+      showSaveMsg('Saved to ' + fileHandle.name);
+      return;
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+         console.warn('File System API blocked, falling back to download:', err);
+         fallbackSave(json);
+      }
+    }
+  } else {
+    fallbackSave(json);
+  }
+}
+
+function fallbackSave(json) {
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'ai-inventory.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  hasUnsavedChanges = false;
+  showSaveMsg('Downloaded JSON');
+}
+
+async function loadJsonFile() {
+  const supportsFS = ('showOpenFilePicker' in window);
+
+  if (supportsFS) {
+    try {
+      const [handle] = await window.showOpenFilePicker({
+        types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }]
+      });
+      const file = await handle.getFile();
+      const text = await file.text();
+      applyJsonData(text);
+      fileHandle = handle;
+      showSaveMsg('Loaded ' + handle.name);
+      return;
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+         console.warn('File System API blocked, falling back:', err);
+         fallbackLoad();
+      }
+    }
+  } else {
+    fallbackLoad();
+  }
+}
+
+function fallbackLoad() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      applyJsonData(ev.target.result);
+      showSaveMsg('Loaded ' + file.name);
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+function applyJsonData(text) {
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch (err) {
+    alert('Could not parse JSON file. Please ensure your file is strictly valid JSON (e.g. no trailing commas).\n\nError: ' + err.message);
+    console.error(err);
+    return;
+  }
+
+  if (data && data.items && Array.isArray(data.items)) {
+    items = data.items.map((item, i) => ({
+      id: item.id || (i + 1),
+      name: item.name,
+      quadrant: item.quadrant,
+      ring: item.ring,
+      owner: item.owner || '',
+      ticket: item.ticket || '',
+      desc: item.desc || ''
+    }));
+    nextId = data.nextId || (Math.max(...items.map(i => i.id)) + 1);
+
+    currentVersion = data.version || '1.0';
+    revisionCount = data.revision || 0;
+
+    document.getElementById('versionBadge').innerText = 'v' + currentVersion;
+    updateRevisionDisplay();
+
+    selectedId = null;
+    hasUnsavedChanges = false;
+
+    const el = document.getElementById('welcomeScreen');
+    if (el) el.style.display = 'none';
+
+    document.getElementById('bannerText').innerHTML = `<strong>✓ Successfully loaded JSON.</strong> The visual ID numbers are permanently bound to the database ID. Click <strong>💾 Save</strong> to persist any future edits to your file.`;
+
+    refreshUI();
+  }
+}
+
+function showSaveMsg(msg) {
+  const el = document.getElementById('saveStatus');
+  const time = new Date().toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+  el.textContent = `${msg} · ${time}`;
+  el.style.opacity = '1';
+  clearTimeout(el._fadeTimer);
+  el._fadeTimer = setTimeout(() => { el.style.opacity = '0.5'; }, 3000);
+}
+
+function markDirty() {
+  hasUnsavedChanges = true;
+  if (typeof fileHandle !== 'undefined' && fileHandle) {
+    clearTimeout(markDirty._debounce);
+    markDirty._debounce = setTimeout(() => saveData(), 1500);
+  }
+}
+
+window.addEventListener('beforeunload', (e) => {
+  if (hasUnsavedChanges && !fileHandle) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+
+// ── DARK/LIGHT MODE ──
+function toggleTheme() {
+  const isDark = document.body.classList.toggle('dark');
+  localStorage.setItem('osb-ai-theme', isDark ? 'dark' : 'light');
+  document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
+  if (items.length > 0) refreshUI();
+}
+
+function loadTheme() {
+  const saved = localStorage.getItem('osb-ai-theme');
+  if (saved === 'dark') {
+    document.body.classList.add('dark');
+    document.getElementById('themeToggle').textContent = '☀️';
+  } else {
+    document.getElementById('themeToggle').textContent = '🌙';
+  }
+}
+
+// ── PRINT PREPARATION ──
+window.addEventListener('beforeprint', () => {
+  if (document.body.classList.contains('dark')) {
+    document.body.classList.remove('dark');
+    document.body.setAttribute('data-print-revert-dark', 'true');
+    refreshUI();
+  }
+});
+
+window.addEventListener('afterprint', () => {
+  if (document.body.getAttribute('data-print-revert-dark') === 'true') {
+    document.body.classList.add('dark');
+    document.body.removeAttribute('data-print-revert-dark');
+    refreshUI();
+  }
+});
+
+// ── INIT ──
+loadTheme();
+const loadedFromCache = autoLoad();
+
+if (loadedFromCache) {
+  document.getElementById('welcomeScreen').style.display = 'none';
+  refreshUI();
+}
+
+hasUnsavedChanges = false;
+</script>
+
+</body></html>
